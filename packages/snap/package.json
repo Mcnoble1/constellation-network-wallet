@@ -1,15 +1,16 @@
 {
-  "name": "snap",
+  "name": "constellation-network-wallet",
   "version": "0.1.0",
-  "description": "The 'Hello, world!' of MetaMask Snaps, now written in TypeScript.",
+  "description": "A metamask Snap for Constellation Network",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/template-snap-monorepo.git"
+    "url": "https://github.com/mcnoble1/constellation-network-wallet.git"
   },
   "license": "(MIT-0 OR Apache-2.0)",
   "main": "./dist/bundle.js",
   "files": [
     "dist/",
+    "images/",
     "snap.manifest.json"
   ],
   "scripts": {
@@ -27,8 +28,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "@metamask/key-tree": "^9.1.2",
     "@metamask/snaps-sdk": "^6.1.1",
-    "buffer": "^6.0.3"
+    "@stardust-collective/dag4": "^2.2.2",
+    "bitcoinjs-lib": "^5.2.0",
+    "buffer": "^6.0.3",
+    "coininfo": "^5.2.1",
+    "dotenv": "^16.4.5",
+    "envify": "^4.1.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.5.0",
