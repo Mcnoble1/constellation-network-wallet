@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import { SendTransactionButton } from './Buttons';
+
 const FormContainer = styled.div`
   margin-top: 1.5rem;
   padding: 1.5rem;
@@ -71,7 +73,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ onSubmit }) => {
           onChange={(e) => setAmount(e.target.value)}
           required
         />
-        <Button type="submit">Send</Button>
+        <SendTransactionButton disabled={!receiver || !amount} />
       </Form>
     </FormContainer>
   );

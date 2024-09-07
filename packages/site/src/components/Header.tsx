@@ -46,8 +46,8 @@ export const Header = ({
   return (
     <HeaderWrapper>
       <LogoWrapper>
-        <SnapLogo color={theme.colors.icon?.default} size={36} />
-        <Title>template-snap</Title>
+        <SnapLogo color={theme.colors.icon?.default} size={20} />
+        <Title>constellation network</Title>
       </LogoWrapper>
       <RightContainer>
         <Toggle

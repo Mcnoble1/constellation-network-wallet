@@ -37,19 +37,10 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     case 'getAccountBalance':
       return await getAccountBalance();
     case 'signMessage':
-      if (typeof request.params !== 'object' || !request.params.message) {
-        throw new Error('Invalid parameters');
-      }
-      return await signMessage(request.params.message);
+      console.log(request.params);
+      return await signMessage(request?.params[0]);
     case 'sendTransaction':
-      if (
-        typeof request.params !== 'object' ||
-        !request.params.to ||
-        !request.params.amount
-      ) {
-        throw new Error('Invalid parameters');
-      }
-      return await sendTransaction(request.params.to, request.params.amount);
+      return await sendTransaction(request?.params?.to, request?.params?.amount);
     case 'hello':
       console.log("Received 'hello' request from", origin, request);
       return snap.request({

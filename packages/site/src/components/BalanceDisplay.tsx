@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const BalanceContainer = styled.div`
   margin-top: 1.5rem;
   text-align: center;
-  padding: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.border?.default};
   border-radius: ${({ theme }) => theme.radii.default};
 `;
