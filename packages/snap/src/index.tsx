@@ -1,13 +1,24 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-case-declarations */
+/* eslint-disable import/order */
+import { dag4 } from '@stardust-collective/dag4';
 import type { OnRpcRequestHandler, OnHomePageHandler, OnInstallHandler } from '@metamask/snaps-sdk';
-import { Box, Text, Heading, Bold } from '@metamask/snaps-sdk/jsx';
-import { createAccount } from './account/createAccount';
-import { getAccountAddress } from './account/getAccountAddress';
-import { getAccountBalance } from './account/getAccountBalance';
-import { signMessage } from './transactions/signMessage';
-import { sendTransaction } from './transactions/sendTransaction';
+import { Box, Text, Heading, Bold, Row } from '@metamask/snaps-sdk/jsx';
+import {
+  getWallet,
+  getBalance,
+  transferDag,
+  updateWallet,
+  createWallet,
+  connectNetwork,
+} from './constellation';
+import { WalletSnapState } from './types';
+import { capitalize } from './utils';
+import { onHomePageUI } from './homepage';
 import { onInstallUI } from './install';
-import { onHomePageUI } from './homepage'
+import { signMessage } from './transactions/signMessage';
 
+dag4.di.useFetchHttpClient(fetch);
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -29,18 +40,83 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
   request,
 }) => {
+  let wallet: WalletSnapState | null;
+  const { network, address } = request?.params as { network: string; address: string };
+
   switch (request.method) {
+    case 'connectNetwork':
+      wallet = await getWallet();
+      if (wallet === null) throw new Error('Wallet not found');
+
+      wallet.config.network = network;
+      await updateWallet(wallet);
+      return wallet;
+
     case 'createAccount':
-      return await createAccount();
-    case 'getAccountAddress':
-      return await getAccountAddress();
+      wallet = await createWallet(network);
+      return wallet;
+
+    case 'getAccount':
+      wallet = await getWallet();
+      return wallet;
+
     case 'getAccountBalance':
-      return await getAccountBalance();
+      const balance = await getBalance(network);
+      return balance;
+
+      case 'sendTransaction':
+        wallet = await getWallet();
+        if (wallet === null) throw new Error('Wallet not found');
+
+        const { toAddress, amount, fee, metagraphId } = request?.params as {
+          toAddress: string;
+          amount: string;
+          fee: string;
+          metagraphId: string;
+        };
+
+        const confirm = await snap.request({
+          method: 'snap_dialog',
+          params: {
+            type: 'confirmation',
+            content: (
+              <Box>
+                <Heading>Do you want to transfer?</Heading>
+                <Row label="Network:">
+                  <Text>{capitalize(wallet.config.network)}</Text>
+                </Row>
+                <Row label="Sender:">
+                  <Text>{wallet.account.address}</Text>
+                </Row>
+                <Row label="Receipient:">
+                  <Text>{toAddress}</Text>
+                </Row>
+                <Row label="Amount:">
+                  <Text>
+                    {amount} {symbol}
+                  </Text>
+                </Row>
+                <Row label="Fee:">
+                  <Text>
+                    {fee} {symbol}
+                  </Text>
+                </Row>
+              </Box>
+            ),
+          },
+        });
+
+        if (confirm === true) {
+            const dagTx = await transferDag(toAddress, amount, fee);
+            return dagTx;
+        }
+
+        return null;
+
     case 'signMessage':
       console.log(request.params);
       return await signMessage(request?.params[0]);
-    case 'sendTransaction':
-      return await sendTransaction(request?.params?.to, request?.params?.amount);
+
     case 'hello':
       console.log("Received 'hello' request from", origin, request);
       return snap.request({

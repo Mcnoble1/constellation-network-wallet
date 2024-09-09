@@ -4,7 +4,7 @@ import { BIP44Node, getBIP44AddressKeyDeriver } from '@metamask/key-tree';
  * Derive the single account we're using for this snap.
  * The path of the account is m/44'/1'/0'/0/0.
  */
-export const getAccount = async (): Promise<BIP44Node> => {
+export const getAccount = async () => {
   const dagTestnetNode = await snap.request({
     method: 'snap_getBip44Entropy',
     params: {
@@ -16,7 +16,14 @@ export const getAccount = async (): Promise<BIP44Node> => {
     dagTestnetNode,
   );
 
-  return deriveDagTestnetPrivateKey(0);
+  const addressKey = await deriveDagTestnetPrivateKey(0);
+  const { privateKey } = addressKey;
+
+  if (!privateKey) {
+    throw new Error('Invalid private key');
+  }
+
+  return privateKey;
 };
 
 

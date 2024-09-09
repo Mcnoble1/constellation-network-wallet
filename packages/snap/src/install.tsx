@@ -1,16 +1,13 @@
 import type { OnInstallHandler } from "@metamask/snaps-sdk";
-import { Box, Heading, Divider, Text } from "@metamask/snaps-sdk/jsx";
+import { Box, Heading, Divider, Text, Link } from "@metamask/snaps-sdk/jsx";
 
 export const onInstallUI: OnInstallHandler = async () => {
-  await snap.request({
-    method: "snap_dialog",
-    params: {
-      type: "alert",
+return {
       content: (
         <Box>
           <Heading>Thank you for installing Constellation Snap</Heading>
           <Text>
-            Learn more about the constellation network at <a href="https://docs.constellationnetwork.io/">Constellation Network</a>.
+            Learn more about the constellation network at <Link href="https://docs.constellationnetwork.io/">Constellation Network</Link>.
           </Text>
           <Divider />
           <Text>
@@ -23,6 +20,5 @@ export const onInstallUI: OnInstallHandler = async () => {
           <Divider />
         </Box>
       ),
-    },
-  });
-};
+    };
+  };

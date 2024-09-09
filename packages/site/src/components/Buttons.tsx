@@ -99,32 +99,6 @@ export const SendHelloButton = (props: ComponentProps<typeof Button>) => {
   return <Button {...props}>Send message</Button>;
 };
 
-export const CreateAccountButton = (props: ComponentProps<typeof Button>) => {
-  return <Button {...props}>Create Account</Button>;
-};
-
-export const GetPrivateKeyButton = (props: ComponentProps<typeof Button>) => {
-  return <Button {...props}>Get Private Key</Button>;
-};
-
-// eslint-disable-next-line prettier/prettier
-export const GetAccountAddressButton = (props: ComponentProps<typeof Button>) => {
-  return <Button {...props}>Get Account Address</Button>;
-};
-
-// eslint-disable-next-line prettier/prettier
-export const GetAccountBalanceButton = (props: ComponentProps<typeof Button>) => {
-  return <Button {...props}>Get Account Balance</Button>;
-};
-
-export const SignMessageButton = (props: ComponentProps<typeof Button>) => {
-  return <Button {...props}>Sign Message</Button>;
-};
-
-export const SendTransactionButton = (props: ComponentProps<typeof Button>) => {
-  return <Button {...props}>Send Transaction</Button>;
-};
-
 export const HeaderButtons = () => {
   const requestSnap = useRequestSnap();
   const { isFlask, installedSnap } = useMetaMask();

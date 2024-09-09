@@ -7,7 +7,7 @@
     "url": "https://github.com/mcnoble1/constellation-network-wallet.git"
   },
   "source": {
-    "shasum": "MVYUgIsxmZx0/ggN4rznK5pOlVE17XKyqLZzDzyR6z8=",
+    "shasum": "vGRJJP7IfqHWAf86bAg7imzuE3UDiOkBESogRgNseUk=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -20,11 +20,15 @@
   "initialPermissions": {
     "snap_dialog": {},
     "endowment:page-home": {},
+    "endowment:lifecycle-hooks": {},
+    "endowment:ethereum-provider": {},
+    "snap_manageState": {},
+    "snap_getEntropy": {},
+    "endowment:network-access": {},
     "endowment:rpc": {
       "dapps": true,
       "snaps": false
     },
-    "endowment:network-access": {},
     "snap_getBip44Entropy": [
       {
         "coinType": 1137
