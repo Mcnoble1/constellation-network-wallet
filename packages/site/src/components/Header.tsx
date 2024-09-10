@@ -10,12 +10,12 @@ const HeaderWrapper = styled.header`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 1.4rem;
+  padding: 0.4rem;
   border-bottom: 1px solid ${(props) => props.theme.colors.border?.default};
 `;
 
 const Title = styled.p`
-  font-size: ${(props) => props.theme.fontSizes.title};
+  font-size: 25px;
   font-weight: bold;
   margin: 0;
   margin-left: 1.2rem;
@@ -36,26 +36,15 @@ const RightContainer = styled.div`
   align-items: center;
 `;
 
-export const Header = ({
-  handleToggleClick,
-}: {
-  handleToggleClick(): void;
-}) => {
-  const theme = useTheme();
+export const Header = () => {
 
   return (
     <HeaderWrapper>
       <LogoWrapper>
-        <SnapLogo color={theme.colors.icon?.default} size={20} />
+        <SnapLogo />
         <Title>constellation network</Title>
       </LogoWrapper>
-      <RightContainer>
-        <Toggle
-          onToggle={handleToggleClick}
-          defaultChecked={getThemePreference()}
-        />
         <HeaderButtons />
-      </RightContainer>
     </HeaderWrapper>
   );
 };

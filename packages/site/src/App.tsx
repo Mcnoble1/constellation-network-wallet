@@ -1,34 +1,27 @@
 import type { FunctionComponent, ReactNode } from 'react';
-import { useContext } from 'react';
-import styled from 'styled-components';
-
+import { useContext, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Footer, Header } from './components';
-import { GlobalStyle } from './config/theme';
-import { ToggleThemeContext } from './Root';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  min-height: 100vh;
-  max-width: 100vw;
-`;
+import { WalletContext } from './hooks';
+import { WalletSnapState } from './types/snap';
 
 export type AppProps = {
   children: ReactNode;
 };
 
 export const App: FunctionComponent<AppProps> = ({ children }) => {
-  const toggleTheme = useContext(ToggleThemeContext);
+  const [wallet, setWallet] = useState<WalletSnapState | null>(null);
 
   return (
     <>
-      <GlobalStyle />
-      <Wrapper>
-        <Header handleToggleClick={toggleTheme} />
+      <ToastContainer />
+      <WalletContext.Provider value={{ wallet, setWallet }}>
+        <Header />
         {children}
         <Footer />
-      </Wrapper>
+      </WalletContext.Provider>
     </>
   );
 };

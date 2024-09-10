@@ -1,7 +1,36 @@
-import React, { useState } from "react";
-
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+/* eslint-disable @typescript-eslint/promise-function-async */
+/* eslint-disable prettier/prettier */
+import React, { useState, useEffect } from "react";
+import { useInvokeSnap, useWalletContext, useRequestSnap } from '../hooks';
+import { WalletSnapState } from '../types/snap';
+import { setLocalStorage } from '../utils';
 const NetworkDropdown = () => {
   const [network, setNetwork] = useState("Testnet");
+  const { wallet, setWallet } = useWalletContext();
+  const invokeSnap = useInvokeSnap();
+
+  const NetworkList = ["Mainnet", "Testnet", "Integrationnet", "LocalNet"];
+
+  const changeNetwork = async (network: string) => {
+    const wallet = (await invokeSnap({
+      method: 'connectToNetwork',
+      params: {
+        network: network.toLowerCase(),
+      },
+    })) as WalletSnapState;
+
+    setNetwork(wallet.config.network);
+
+    setLocalStorage('wallet', JSON.stringify(wallet));
+    setWallet(wallet as WalletSnapState);
+  };
+
+  useEffect(() => {
+    if (wallet) {
+      setNetwork(wallet.config.network);
+    }
+  }, [wallet?.config.network]);
 
   return (
     <div>
@@ -11,10 +40,11 @@ const NetworkDropdown = () => {
         value={network}
         onChange={(e) => setNetwork(e.target.value)}
       >
-        <option>Mainnet</option>
-        <option>Testnet</option>
-        <option>Integrationnet</option>
-        <option>LocalNet</option>
+        {NetworkList.map((network, index) => (
+          <option onClick={
+            () => changeNetwork(network)
+          } key={index} value={network}>{network}</option>
+        ))}
       </select>
     </div>
   );

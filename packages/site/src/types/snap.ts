@@ -24,9 +24,8 @@ export type Account = {
 };
 
 export type Balance = {
-  balance: string;
-  balanceUsd: string;
-  assets: Asset[];
+  balance: number;
+  usdEquivalent: number;
 };
 
 export type Asset = {

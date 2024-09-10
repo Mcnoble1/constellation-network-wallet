@@ -71,27 +71,35 @@ const ConnectedIndicator = styled.div`
 `;
 
 export const InstallFlaskButton = () => (
-  <Link href="https://metamask.io/flask/" target="_blank">
-    <FlaskFox />
-    <ButtonText>Install MetaMask Flask</ButtonText>
-  </Link>
+  <a href="https://metamask.io/flask/" target="_blank">
+      <button
+        className="inline-flex mt-5 items-center justify-center rounded-full bg-secondary hover:bg-secondary/80 py-3 px-10 text-center font-medium text-white hover-bg-opacity-90 lg:px-8 xl:px-10"
+      >
+        <FlaskFox/>
+        Install Metamask Flask
+      </button>
+      </a>
 );
 
 export const ConnectButton = (props: ComponentProps<typeof Button>) => {
   return (
-    <Button {...props}>
-      <FlaskFox />
-      <ButtonText>Connect</ButtonText>
-    </Button>
+    <button {...props}
+        className="inline-flex mt-5 items-center justify-center rounded-full bg-secondary hover:bg-secondary/80 py-3 px-10 text-center font-medium text-white hover-bg-opacity-90 lg:px-8 xl:px-10"
+      >
+        <FlaskFox/>
+        Connect
+      </button>
   );
 };
 
 export const ReconnectButton = (props: ComponentProps<typeof Button>) => {
   return (
-    <Button {...props}>
-      <FlaskFox />
-      <ButtonText>Reconnect</ButtonText>
-    </Button>
+    <button {...props}
+        className="inline-flex mt-5 items-center justify-center rounded-full bg-secondary hover:bg-secondary/80 py-3 px-10 text-center font-medium text-white hover-bg-opacity-90 lg:px-8 xl:px-10"
+      >
+        <FlaskFox/>
+        Reconnect
+      </button>
   );
 };
 

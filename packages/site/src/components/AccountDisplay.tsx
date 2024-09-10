@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare, faCopy } from "@fortawesome/free-solid-svg-icons";
+import { shortAddress } from '../utils';
 
-const AccountDisplay = ({ onSendClick, onReceiveClick }) => {
+const AccountDisplay = ({ onSendClick, onReceiveClick, balance, usdEquivalent, address, network }) => {
   // State for balance and address
-  const [balance, setBalance] = useState(10000); // Example: 10,000 DAG
-  const [usdEquivalent, setUsdEquivalent] = useState(1200); // Example: $1,200 USD
-  const [address, setAddress] = useState("0x123...789");
   const [copied, setCopied] = useState(false);
+
+  // setAddress({wallet?.account.address})
+  // setBalance({wallet?.account.balance})
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(address);
@@ -16,27 +17,28 @@ const AccountDisplay = ({ onSendClick, onReceiveClick }) => {
   };
 
   return (
-    <div className="w-full md:w-[40%] bg-white p-8 rounded-2xl shadow-2xl">
-      <div className="flex justify-between items-center mb-4">
-        <p className="text-2xl text-gray-500">{address}
-        <FontAwesomeIcon onClick={copyToClipboard} icon={faCopy} className="ml-2 translate-x" />
+    <div className="w-full md:w-[40%] bg-white p-5 rounded-2xl shadow-2xl">
+      <div className="flex justify-between items-center mb-1">
+        <p className="text-xl text-black">{address ? shortAddress(address) : ''}
+        <FontAwesomeIcon onClick={copyToClipboard} icon={faCopy} className="ml-2 translate-x text-secondary hover:text-secondary/50" />
+        <span className="text-sm">{copied ? "Copied!" : ""}</span>
         </p>
-          <span>{copied ? "Copied!" : ""}</span>
-          <div className="flex justify-center items-center mb-6">
+
+          <div className="flex justify-center items-center mb-2">
         <a
-          href="https://mainnet.dagexplorer.io/"
+          href={`https://${network}.dagexplorer.io/address/${address}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center text-blue-500 hover:text-blue-700"
+          className="flex items-center text-secondary hover:text-secondary/50"
         >
           <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="mr-2" />
         </a>
       </div>
       </div>
 
-      <div className="text-center mb-6">
-        <p className="text-4xl font-bold text-gray-900">{balance.toLocaleString()} DAG</p>
-        <p className="text-xl text-gray-500 mt-2">${usdEquivalent.toLocaleString()} USD</p>
+      <div className="text-center mb-2">
+        <p className="text-2xl font-bold text-black">{Number(balance) > 0 ? Number(balance).toFixed(2) : '0'} DAG</p>
+        <p className="text-sm text-black mt-2">${Number(usdEquivalent) > 0 ? Number(usdEquivalent).toFixed(2) : '0'} USD</p>
       </div>
 
       <div className="flex justify-center space-x-4">

@@ -9,8 +9,8 @@ const FooterWrapper = styled.footer`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding-top: 2.4rem;
-  padding-bottom: 2.4rem;
+  padding-top: 1.4rem;
+  padding-bottom: 1.4rem;
   border-top: 1px solid ${(props) => props.theme.colors.border?.default};
 `;
 
@@ -19,7 +19,6 @@ const PoweredByButton = styled.a`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 1.2rem;
   border-radius: ${({ theme }) => theme.radii.button};
   box-shadow: ${({ theme }) => theme.shadows.button};
   background-color: ${({ theme }) => theme.colors.background?.alternative};

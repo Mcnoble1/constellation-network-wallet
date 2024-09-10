@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-case-declarations */
 /* eslint-disable import/order */
@@ -5,12 +6,12 @@ import { dag4 } from '@stardust-collective/dag4';
 import type { OnRpcRequestHandler, OnHomePageHandler, OnInstallHandler } from '@metamask/snaps-sdk';
 import { Box, Text, Heading, Bold, Row } from '@metamask/snaps-sdk/jsx';
 import {
-  getWallet,
+  getAccount,
   getBalance,
   transferDag,
-  updateWallet,
-  createWallet,
-  connectNetwork,
+  updateAccount,
+  createAccount,
+  connectToNetwork,
 } from './constellation';
 import { WalletSnapState } from './types';
 import { capitalize } from './utils';
@@ -44,20 +45,21 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   const { network, address } = request?.params as { network: string; address: string };
 
   switch (request.method) {
-    case 'connectNetwork':
-      wallet = await getWallet();
+    case 'connectToNetwork':
+      console.log("network", network);
+      wallet = await getAccount();
       if (wallet === null) throw new Error('Wallet not found');
 
       wallet.config.network = network;
-      await updateWallet(wallet);
+      await updateAccount(wallet);
       return wallet;
 
     case 'createAccount':
-      wallet = await createWallet(network);
+      wallet = await createAccount(network);
       return wallet;
 
     case 'getAccount':
-      wallet = await getWallet();
+      wallet = await getAccount();
       return wallet;
 
     case 'getAccountBalance':
@@ -65,14 +67,13 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return balance;
 
       case 'sendTransaction':
-        wallet = await getWallet();
+        wallet = await getAccount();
         if (wallet === null) throw new Error('Wallet not found');
 
-        const { toAddress, amount, fee, metagraphId } = request?.params as {
+        const { toAddress, amount, fee } = request?.params as {
           toAddress: string;
           amount: string;
           fee: string;
-          metagraphId: string;
         };
 
         const confirm = await snap.request({
@@ -93,12 +94,12 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
                 </Row>
                 <Row label="Amount:">
                   <Text>
-                    {amount} {symbol}
+                    {amount} DAG
                   </Text>
                 </Row>
                 <Row label="Fee:">
                   <Text>
-                    {fee} {symbol}
+                    {fee}
                   </Text>
                 </Row>
               </Box>

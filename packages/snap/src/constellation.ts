@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/require-jsdoc */
 import { dag4 } from '@stardust-collective/dag4';
 import { transferByNetwork } from './dag4js';
 import { Asset, Balance, NetworkInfo, WalletSnapState } from './types';
@@ -16,35 +17,28 @@ export async function getCurrentMetamaskAccount(): Promise<string> {
   return accounts[0] ?? '';
 }
 
-export function connectNetwork(networkName: string) {
-  switch (networkName.toLowerCase()) {
-    case 'testnet':
-      dag4.account.connect({
+export function connectToNetwork(networkName: string) {
+  if (networkName.toLowerCase() === 'testnet') {
+    dag4.account.connect({
+      networkVersion: '2.0',
+      testnet: true,
+    });
+  } else if (networkName.toLowerCase() === 'mainnet') {
+    dag4.account.connect({
+      networkVersion: '2.0',
+      testnet: false,
+    });
+  } else if (networkName.toLowerCase() === 'integrationnet') {
+    dag4.account.connect(
+      {
+        id: 'integration2',
         networkVersion: '2.0',
-        testnet: true,
-      });
-      break;
-    case 'mainnet':
-      dag4.account.connect({
-        networkVersion: '2.0',
-        testnet: false,
-      });
-      break;
-    case 'integrationnet':
-      dag4.account.connect(
-        {
-          id: 'integration2',
-          networkVersion: '2.0',
-          beUrl: 'https://be-integrationnet.constellationnetwork.io',
-          l0Url: 'https://l0-lb-integrationnet.constellationnetwork.io',
-          l1Url: 'https://l1-lb-integrationnet.constellationnetwork.io',
-        },
-        false,
-      );
-      break;
-
-    default:
-      break;
+        beUrl: 'https://be-integrationnet.constellationnetwork.io',
+        l0Url: 'https://l0-lb-integrationnet.constellationnetwork.io',
+        l1Url: 'https://l1-lb-integrationnet.constellationnetwork.io',
+      },
+      false,
+    );
   }
 
   let dag4NetworkInfo = dag4.network.getNetwork();
@@ -73,13 +67,13 @@ export async function login(evmAddress: string) {
   dag4.account.loginPrivateKey(pk);
 }
 
-export async function getWallet() {
+export async function getAccount() {
   const wallet = await SnapState.getState();
   return wallet;
 }
 
-export async function createWallet(network: string = 'integrationnet') {
-  let wallet = await getWallet();
+export async function createAccount(network: string = 'testnet') {
+  let wallet = await getAccount();
   if (wallet === null) {
     const evmAddress = await getCurrentMetamaskAccount();
     await login(evmAddress);
@@ -97,48 +91,35 @@ export async function createWallet(network: string = 'integrationnet') {
   return wallet;
 }
 
-export async function updateWallet(wallet: WalletSnapState) {
+export async function updateAccount(wallet: WalletSnapState) {
   return await SnapState.updateState(wallet);
 }
 
 export async function getBalance(network: string): Promise<Balance> {
   const res = {
-    balance: '0',
-    balanceUsd: '0',
-    assets: [],
+    balance: 0,
+    balanceUsd: 0,
   } as Balance;
 
-  const wallet = await getWallet();
+  const wallet = await getAccount();
   if (wallet) {
-    connectNetwork(network);
+    connectToNetwork(network);
 
     let balance = await _getAddressBalance(wallet.account.address);
     const dagPrice = await getDAGPrice();
 
-    const assets: Asset[] = [
-      {
-        id: 'dag',
-        name: 'Constellation',
-        symbol: 'DAG',
-        icon: 'https://stargazer-assets.s3.us-east-2.amazonaws.com/logos/dag.png',
-        price: dagPrice.toString(),
-        amount: convertUnitsToToken(balance.toString()),
-      },
-    ];
-
     // TODO: need to calculate total balance
     res.balance = convertUnitsToToken(balance.toString());
     res.balanceUsd = (dagPrice * Number(res.balance)).toString();
-    res.assets = assets;
   }
 
   return res;
 }
 
 export async function transferDag(toAddress: string, amount: string, fee: string) {
-  const wallet = await getWallet();
+  const wallet = await getAccount();
   if (wallet) {
-    connectNetwork(wallet.config.network);
+    connectToNetwork(wallet.config.network);
 
     const pk = await getPrivateKey();
     dag4.account.loginPrivateKey(pk);
