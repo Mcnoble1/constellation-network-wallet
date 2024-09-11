@@ -3,6 +3,9 @@ import type { GatsbyConfig } from 'gatsby';
 const config: GatsbyConfig = {
   // This is required to make use of the React 17+ JSX transform.
   jsxRuntime: 'automatic',
+  flags: {
+    DEV_SSR: true
+  },
   plugins: [
     'gatsby-plugin-postcss',
     'gatsby-plugin-svgr',
