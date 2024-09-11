@@ -11,8 +11,7 @@ import {
   transferDag,
   updateAccount,
   createAccount,
-  connectToNetwork,
-} from './constellation';
+} from '../account/account';
 import { WalletSnapState } from './types';
 import { capitalize } from './utils';
 import { onHomePageUI } from './homepage';

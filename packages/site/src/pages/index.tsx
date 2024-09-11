@@ -49,7 +49,10 @@ const Index = () => {
         setLocalStorage('accountReady', 'true');
       };
 
+      // createWallet('testnet');
+
   const accountDetails = async () => {
+    // console.log(wallet);
     try {
       const address = wallet?.account.address;
       if (address) {

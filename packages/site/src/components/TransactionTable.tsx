@@ -45,15 +45,15 @@ const TransactionTable = () => {
           </tr>
         </thead>
         <tbody>
-          {transactions.map((tx) => (
-            <tr key={tx.id} className="border-b border-gray-200">
-              <td className="p-2.5 xl:p-5">{formatDatetime(tx.timestamp)}</td>
-              <td className="p-2.5 xl:p-5">{tx.amount}</td>
-              <td className="p-2.5 xl:p-5">{shortAddress(tx.sender)}</td>
-              <td className="p-2.5 xl:p-5">{shortAddress(tx.hash)}</td>
-              <td className="p-2.5 xl:p-5">{shortAddress(tx.receiver)}</td>
-              <td className="p-2.5 xl:p-5">{tx.fee}</td>
-              <td className="py-2 text-blue-500 cursor-pointer" onClick={() => handleViewOnExplorer(tx.hash)}>
+          {(transactions.length > 0) && transactions.map((tx) => (
+            <tr key={tx?.id} className="border-b border-gray-200">
+              <td className="p-2.5 xl:p-5">{formatDatetime(tx?.timestamp)}</td>
+              <td className="p-2.5 xl:p-5">{tx?.amount}</td>
+              <td className="p-2.5 xl:p-5">{shortAddress(tx?.sender)}</td>
+              <td className="p-2.5 xl:p-5">{shortAddress(tx?.hash)}</td>
+              <td className="p-2.5 xl:p-5">{shortAddress(tx?.receiver)}</td>
+              <td className="p-2.5 xl:p-5">{tx?.fee}</td>
+              <td className="py-2 text-blue-500 cursor-pointer" onClick={() => handleViewOnExplorer(tx?.hash)}>
                 <FontAwesomeIcon icon={faArrowRight} className="text-blue-500 hover:text-blue-700" />
               </td>
             </tr>

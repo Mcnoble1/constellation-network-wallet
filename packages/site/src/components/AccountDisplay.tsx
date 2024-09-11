@@ -38,7 +38,7 @@ const AccountDisplay = ({ onSendClick, onReceiveClick, balance, usdEquivalent, a
 
       <div className="text-center mb-2">
         <p className="text-2xl font-bold text-black">{Number(balance) > 0 ? Number(balance).toFixed(2) : '0'} DAG</p>
-        <p className="text-sm text-black mt-2">${Number(usdEquivalent) > 0 ? Number(usdEquivalent).toFixed(2) : '0'} USD</p>
+        {/* <p className="text-sm text-black mt-2">${Number(usdEquivalent) > 0 ? Number(usdEquivalent).toFixed(2) : '0'} USD</p> */}
       </div>
 
       <div className="flex justify-center space-x-4">

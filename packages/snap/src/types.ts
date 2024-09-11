@@ -33,14 +33,4 @@ export type Balance = {
   usdEquivalent: number;
 };
 
-export type Asset = {
-  id: string;
-  name: string;
-  symbol: string;
-  amount: string;
-  price: string;
-  address?: string;
-  decimals?: number;
-  icon?: string;
-};
 
