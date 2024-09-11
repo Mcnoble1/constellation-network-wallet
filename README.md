@@ -1,21 +1,38 @@
-# constellation network wallet
+# Constellation Network MetaMask Snap
 
-MetaMask Snaps is a system that allows anyone to safely expand the capabilities
-of MetaMask. A _snap_ is a program that we run in an isolated environment that
-can customize the wallet experience.
+This repository demonstrates how to develop a MetaMask Snap for the **Constellation Network** using stardust collective's **DAG4.js** and **Metamask Snap API and SDK**. The Snap allows users to create and manage Constellation DAG accounts, view balances, send/receive DAG, and sign transactions—all within MetaMask. Future features will include support for Metagraph tokens and message signing.
 
-## Snaps is pre-release software
+## Snaps is Pre-release Software
 
-To interact with (your) Snaps, you will need to install [MetaMask Flask](https://metamask.io/flask/),
-a canary distribution for developers that provides access to upcoming features.
+To interact with your Snap, you will need to install [MetaMask Flask](https://metamask.io/flask/), a developer-focused MetaMask distribution that allows access to Snaps' upcoming features.
 
+## Getting Started
 
-```shell
-yarn install && yarn start
+### Cloning the Repository
+
+Clone the repository and set up the development environment:
+
+```bash
+git clone https://github.com/mcnoble1/constellation-network-wallet.git
+cd constellation-network-wallet
+yarn install
 ```
-### Testing and Linting
 
-Run `yarn test` to run the tests once.
+### Running the Snap Locally
+```
+yarn start
+```
+This command will compile the Snap and serve it locally so that it can be loaded into MetaMask Flask.
 
-Run `yarn lint` to run the linter, or run `yarn lint:fix` to run the linter and
-fix any automatically fixable issues.
+### How to Use
+- Install MetaMask Flask from [here](https://metamask.io/flask/).
+- Start the Snap development server with yarn start.
+- Enter http://localhost:8000 to view the companion dapp and Install the Snap by clicking "Connect".
+- Approve the permissions required by the Constellation Network Snap.
+- You can now interact with your DAG account in MetaMask using the Snap's functions, such as creating an account, viewing balances, and sending DAG tokens.
+
+### Features
+- DAG Account Creation: Automatically creates a Constellation Network (DAG) account using DAG4.js and BIP44/BIP32 entropy.
+- Send/Receive DAG: Easily send and receive DAG tokens through MetaMask.
+- View Balance: Check your DAG account balance within MetaMask.
+- Sign Transactions: Sign transactions securely using MetaMask.
