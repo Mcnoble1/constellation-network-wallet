@@ -5,7 +5,12 @@
  * @returns The value stored at the key provided if the key exists.
  */
 export const getLocalStorage = (key: string) => {
-  const { localStorage: ls } = window;
+  const isBrowser = typeof window !== "undefined"
+
+   if (isBrowser) {
+      const { localStorage: ls } = window;
+   }
+  
 
   if (ls !== null) {
     const data = ls.getItem(key);
