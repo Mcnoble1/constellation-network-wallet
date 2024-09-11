@@ -14,8 +14,8 @@ export const getLocalStorage = (key: string) => {
     const data = ls.getItem(key);
     return data;
   }
-}
   throw new Error('Local storage is not available.');
+     }
 };
 
 /**
@@ -25,6 +25,9 @@ export const getLocalStorage = (key: string) => {
  * @param value - The value to set.
  */
 export const setLocalStorage = (key: string, value: string) => {
+  const isBrowser = typeof window !== "undefined"
+
+  if (isBrowser) {
   const { localStorage: ls } = window;
 
   if (ls !== null) {
@@ -33,4 +36,5 @@ export const setLocalStorage = (key: string, value: string) => {
   }
 
   throw new Error('Local storage is not available.');
+  }
 };
